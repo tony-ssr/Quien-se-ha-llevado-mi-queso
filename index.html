@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¿Quién se ha llevado mi queso? | Antony Salcedo</title>
+    <meta name="description"
+        content="Resumen, reflexión y compromisos del libro ¿Quién se ha llevado mi queso? por Antony Salcedo. CELIDER 2026." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.14);
+            --glass-shadow: rgba(0, 0, 0, 0.45);
+            --accent-1: #a78bfa;
+            --accent-2: #60a5fa;
+            --accent-3: #f472b6;
+            --accent-gold: #fbbf24;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.68);
+            --text-muted: rgba(255, 255, 255, 0.42);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background: #080818;
+        }
+
+        /* ── Animated gradient background ── */
+        .bg-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: linear-gradient(135deg, #0d0d2b, #1a0a2e, #0a1628, #0d1f3a, #1a0a2e);
+            background-size: 400% 400%;
+            animation: gradientShift 18s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.18;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: #7c3aed;
+            top: -15%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: #1d4ed8;
+            bottom: -10%;
+            right: -8%;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: #be185d;
+            top: 55%;
+            left: 60%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            33% {
+                transform: translateY(-40px) scale(1.05);
+            }
+
+            66% {
+                transform: translateY(20px) scale(0.97);
+            }
+        }
+
+        /* ── Layout ── */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2.5rem 1.25rem 5rem;
+            gap: 1.8rem;
+        }
+
+        /* ── Clock bar ── */
+        .clock-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 50px;
+            padding: 0.45rem 1.2rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            animation: fadeSlideDown 0.8s ease both;
+        }
+
+        .clock-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-1);
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .5;
+                transform: scale(.8)
+            }
+        }
+
+        #clock-display {
+            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* ── Hero card ── */
+        .hero-card {
+            width: 100%;
+            max-width: 780px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(24px) saturate(160%);
+            -webkit-backdrop-filter: blur(24px) saturate(160%);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 32px 80px var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: fadeSlideUp 1s ease 0.2s both;
+            transition: transform 0.1s ease;
+        }
+
+        /* Hero image banner */
+        .hero-image-banner {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            border-bottom: 1px solid var(--glass-border);
+            filter: brightness(0.75) saturate(1.3);
+        }
+
+        .hero-body {
+            padding: 2.4rem 3rem 2.6rem;
+            text-align: center;
+        }
+
+        .book-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.35rem 1rem;
+            font-size: 0.73rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent-1);
+            background: rgba(167, 139, 250, 0.08);
+            margin-bottom: 1.4rem;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 50%, #f9a8d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.35rem;
+        }
+
+        .hero-author-book {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-by {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(167, 139, 250, 0.1);
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            border-radius: 50px;
+            padding: 0.4rem 1.1rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--accent-1);
+            margin-bottom: 1.4rem;
+        }
+
+        .hero-by-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .hero-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            border-radius: 2px;
+            margin: 0 auto 1.3rem;
+        }
+
+        .hero-description {
+            color: var(--text-secondary);
+            font-size: 0.96rem;
+            line-height: 1.75;
+            max-width: 560px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2.2rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #fff;
+            transition: transform 0.25s ease, box-shadow 0.35s ease, filter 0.25s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 32px 8px rgba(167, 139, 250, 0.45), 0 0 60px 12px rgba(96, 165, 250, 0.25);
+            filter: brightness(1.1);
+        }
+
+        .cta-btn:active {
+            transform: translateY(-1px) scale(1);
+        }
+
+        /* ── Section cards ── */
+        .section-card {
+            width: 100%;
+            max-width: 780px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px) saturate(140%);
+            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 16px 48px var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+            animation: fadeSlideUp 1s ease both;
+        }
+
+        /* Image inside section */
+        .section-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            border-bottom: 1px solid var(--glass-border);
+            filter: brightness(0.65) saturate(1.4);
+            transition: filter 0.4s ease;
+        }
+
+        .section-card:hover .section-image {
+            filter: brightness(0.8) saturate(1.5);
+        }
+
+        .section-body-wrap {
+            padding: 2rem 2.4rem 2.2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .section-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            flex-shrink: 0;
+        }
+
+        .icon-purple {
+            background: rgba(167, 139, 250, 0.15);
+            color: var(--accent-1);
+        }
+
+        .icon-blue {
+            background: rgba(96, 165, 250, 0.15);
+            color: var(--accent-2);
+        }
+
+        .icon-pink {
+            background: rgba(244, 114, 182, 0.15);
+            color: var(--accent-3);
+        }
+
+        .icon-gold {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--accent-gold);
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .section-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.82;
+        }
+
+        .section-text+.section-text {
+            margin-top: 0.9rem;
+        }
+
+        .quote-block {
+            margin: 1.2rem 0 0;
+            padding: 1rem 1.3rem;
+            border-left: 3px solid var(--accent-3);
+            background: rgba(244, 114, 182, 0.07);
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.93rem;
+            line-height: 1.75;
+        }
+
+        /* Commitment */
+        .commitment-card {
+            border-color: rgba(251, 191, 36, 0.22);
+            background: rgba(251, 191, 36, 0.03);
+        }
+
+        .commitment-items {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .commitment-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem;
+            background: rgba(251, 191, 36, 0.06);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            border-radius: 14px;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        .commitment-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ── Author footer card ── */
+        .author-card {
+            width: 100%;
+            max-width: 780px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.6rem 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            box-shadow: 0 12px 36px var(--glass-shadow);
+            animation: fadeSlideUp 1s ease 0.85s both;
+        }
+
+        .author-avatar {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.45);
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .author-role {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+
+        .author-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+            background: rgba(167, 139, 250, 0.1);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 50px;
+            padding: 0.25rem 0.8rem;
+            font-size: 0.73rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: var(--accent-1);
+            text-transform: uppercase;
+        }
+
+        /* ── Page footer ── */
+        .page-footer {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-align: center;
+            animation: fadeSlideUp 1s ease 1s both;
+        }
+
+        .page-footer span {
+            color: var(--accent-1);
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .hero-body {
+                padding: 1.8rem 1.4rem 2rem;
+            }
+
+            .section-body-wrap {
+                padding: 1.5rem 1.3rem;
+            }
+
+            .author-card {
+                flex-direction: column;
+                text-align: center;
+                border-radius: 18px;
+            }
+
+            .hero-image-banner {
+                height: 160px;
+            }
+
+            .section-image {
+                height: 140px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(167, 139, 250, 0.3);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-canvas" aria-hidden="true"></div>
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="orb orb-3" aria-hidden="true"></div>
+
+    <main class="page-wrapper" id="main-wrapper">
+
+        <!-- Clock -->
+        <div class="clock-bar" role="status" aria-label="Reloj digital">
+            <span class="clock-dot" aria-hidden="true"></span>
+            <span id="clock-display">00:00:00</span>
+            <span>·</span>
+            <span id="date-display" style="color:var(--text-muted);font-size:0.78rem;"></span>
+        </div>
+
+        <!-- ── HERO CARD ── -->
+        <article class="hero-card" id="hero-card">
+            <img src="img_maze.png" alt="Laberinto glowing — ilustración temática del libro" class="hero-image-banner"
+                loading="eager" />
+            <div class="hero-body">
+                <div class="book-badge">
+                    <span aria-hidden="true">📖</span> Lectura CELIDER 2026
+                </div>
+
+                <h1 class="hero-title">¿Quién se ha llevado<br />mi queso?</h1>
+                <p class="hero-author-book">Spencer Johnson &mdash; Una parábola sobre el cambio</p>
+
+                <div class="hero-by" aria-label="Presentado por Antony Salcedo">
+                    <div class="hero-by-avatar" aria-hidden="true">AS</div>
+                    Presentado por <strong>Antony Salcedo</strong>
+                </div>
+
+                <div class="hero-divider" aria-hidden="true"></div>
+
+                <p class="hero-description">
+                    Una reflexión profunda sobre cómo enfrentamos el cambio, el miedo y la búsqueda de
+                    nuevas oportunidades. Cuatro personajes, un laberinto y una lección que transforma vidas.
+                </p>
+
+                <a href="#resumen" class="cta-btn" aria-label="Explorar el contenido del libro">
+                    <span aria-hidden="true">✦</span> Explorar el contenido
+                </a>
+            </div>
+        </article>
+
+        <!-- ── 1. RESUMEN ── -->
+        <section class="section-card" id="resumen" aria-labelledby="resumen-title">
+            <img src="img_cheese.png" alt="Queso dorado flotante — símbolo de las metas y la estabilidad"
+                class="section-image" loading="lazy" />
+            <div class="section-body-wrap">
+                <div class="section-header">
+                    <div class="section-icon icon-purple" aria-hidden="true">📋</div>
+                    <div>
+                        <span class="section-label">Sección 01</span>
+                        <h2 class="section-title" id="resumen-title">Resumen</h2>
+                    </div>
+                </div>
+                <p class="section-text">
+                    El libro de Spencer Johnson es una parábola sobre cuatro personajes que viven en un laberinto:
+                    los ratones <strong>Fisgón</strong> y <strong>Escurridizo</strong>, y los liliputienses
+                    <strong>Hem</strong> y <strong>Haw</strong>. Todos dependen de un "Depósito de Queso" que un
+                    día se agota. Mientras los ratones actúan instintivamente y salen de inmediato a buscar nuevas
+                    fuentes, los humanos se paralizan por la negación, la queja y el miedo.
+                </p>
+                <p class="section-text">
+                    La historia narra el viaje de Haw, quien finalmente decide vencer su temor y adentrarse de
+                    nuevo en el laberinto. A medida que avanza, escribe frases en las paredes que resumen las
+                    lecciones aprendidas: el "Queso" —nuestras metas, felicidad o estabilidad— se mueve
+                    constantemente y nuestra supervivencia emocional depende de nuestra capacidad para movernos
+                    con él.
+                </p>
+            </div>
+        </section>
+
+        <!-- ── 2. REFLEXIÓN ── -->
+        <section class="section-card" aria-labelledby="reflexion-title" style="animation-delay:0.35s">
+            <div class="section-body-wrap">
+                <div class="section-header">
+                    <div class="section-icon icon-blue" aria-hidden="true">💡</div>
+                    <div>
+                        <span class="section-label">Sección 02</span>
+                        <h2 class="section-title" id="reflexion-title">Reflexión</h2>
+                    </div>
+                </div>
+                <p class="section-text">
+                    Esta obra nos invita a mirar de frente nuestra zona de confort. Muchas veces llamamos
+                    "lealtad" o "persistencia" a lo que en realidad es miedo puro al vacío. La reflexión central
+                    es que el cambio no es un evento trágico, sino una constante natural.
+                </p>
+                <p class="section-text">
+                    Si analizamos nuestra vida, solemos actuar como Hem, esperando que el mundo se adapte a
+                    nuestras expectativas pasadas. Sin embargo, la verdadera libertad surge cuando dejamos de
+                    analizar <em>por qué se acabó el queso</em> y empezamos a disfrutar la aventura de buscar
+                    uno nuevo. La felicidad no está en el depósito lleno, sino en la certeza de que, si se
+                    acaba, tenemos las herramientas para encontrar otro mejor.
+                </p>
+            </div>
+        </section>
+
+        <!-- ── 3. IMPACTO ── -->
+        <section class="section-card" aria-labelledby="impacto-title" style="animation-delay:0.50s">
+            <img src="img_doorway.png" alt="Silueta ante una puerta de luz en el laberinto" class="section-image"
+                loading="lazy" />
+            <div class="section-body-wrap">
+                <div class="section-header">
+                    <div class="section-icon icon-pink" aria-hidden="true">⚡</div>
+                    <div>
+                        <span class="section-label">Sección 03</span>
+                        <h2 class="section-title" id="impacto-title">¿Qué fue lo que más me impactó?</h2>
+                    </div>
+                </div>
+                <p class="section-text">
+                    Lo que más resuena es la pregunta que Haw se hace a sí mismo. Es impactante darse cuenta
+                    de que la mayoría de nuestras parálisis no son causadas por la falta de recursos o de
+                    oportunidades, sino por escenarios catastróficos que solo existen en nuestra imaginación.
+                    El libro me hizo ver que el miedo que acumulamos mientras nos resistimos al cambio es
+                    mucho peor que el cambio mismo.
+                </p>
+                <blockquote class="quote-block">
+                    "¿Qué harías si no tuvieras miedo?"
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- ── 4. COMPROMISO NIVEL 5 ── -->
+        <section class="section-card commitment-card" aria-labelledby="compromiso-title" style="animation-delay:0.65s">
+            <div class="section-body-wrap">
+                <div class="section-header">
+                    <div class="section-icon icon-gold" aria-hidden="true">🔥</div>
+                    <div>
+                        <span class="section-label">Sección 04 · Compromiso Nivel 5</span>
+                        <h2 class="section-title" id="compromiso-title">Lo que NO seguirá ocurriendo en mi vida</h2>
+                    </div>
+                </div>
+                <p class="section-text">
+                    Mi compromiso total, cueste lo que cueste, es no volver a permitir que la parálisis por
+                    análisis me robe el tiempo.
+                </p>
+                <ul class="commitment-items" role="list" aria-label="Compromisos nivel 5 de Antony Salcedo">
+                    <li class="commitment-item">
+                        <div class="commitment-check" aria-hidden="true">✓</div>
+                        <span>Me comprometo a detectar las "pequeñas señales" de cambio a tiempo para no ser tomado por
+                            sorpresa.</span>
+                    </li>
+                    <li class="commitment-item">
+                        <div class="commitment-check" aria-hidden="true">✓</div>
+                        <span>Renuncio a la queja victimista de <em>"¿por qué me pasa esto a mí?"</em> y la sustituyo
+                            por la acción inmediata.</span>
+                    </li>
+                    <li class="commitment-item">
+                        <div class="commitment-check" aria-hidden="true">✓</div>
+                        <span>No permitiré que el apego a lo que ya no existe me impida ver las nuevas y mejores
+                            oportunidades que el laberinto tiene preparadas para mí.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ── AUTHOR CARD ── -->
+        <div class="author-card" aria-label="Información del autor de la reflexión">
+            <div class="author-avatar" aria-hidden="true">AS</div>
+            <div class="author-info">
+                <div class="author-name">Antony Salcedo</div>
+                <div class="author-role">Participante &mdash; Programa CELIDER 2026</div>
+                <div class="author-tag"><span aria-hidden="true">✦</span> Comprometido al cambio</div>
+            </div>
+        </div>
+
+        <!-- ── FOOTER ── -->
+        <footer class="page-footer">
+            <p>Hecho con <span>♥</span> por <strong style="color:var(--text-secondary);">Antony Salcedo</strong> ·
+                CELIDER &mdash; Programa de Lectura 2026</p>
+        </footer>
+
+    </main>
+
+    <script>
+        /* ── Digital Clock ── */
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock-display').textContent = `${h}:${m}:${s}`;
+
+            const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            const el = document.getElementById('date-display');
+            if (el) el.textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        /* ── Mouse Parallax (hero card only) ── */
+        const heroCard = document.getElementById('hero-card');
+        let tx = 0, ty = 0, cx = 0, cy = 0;
+
+        document.addEventListener('mousemove', e => {
+            const ox = window.innerWidth / 2;
+            const oy = window.innerHeight / 2;
+            tx = ((e.clientY - oy) / oy) * 6;
+            ty = -((e.clientX - ox) / ox) * 6;
+        });
+        document.addEventListener('mouseleave', () => { tx = 0; ty = 0; });
+
+        (function animateParallax() {
+            cx += (tx - cx) * 0.06;
+            cy += (ty - cy) * 0.06;
+            if (heroCard) heroCard.style.transform = `perspective(1000px) rotateX(${cx}deg) rotateY(${cy}deg)`;
+            requestAnimationFrame(animateParallax);
+        })();
+
+        /* ── Smooth scroll for CTA ── */
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        /* ── Scroll reveal for section cards ── */
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.section-card, .author-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(28px)';
+            el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+            obs.observe(el);
+        });
+    </script>
+</body>
+
+</html>
